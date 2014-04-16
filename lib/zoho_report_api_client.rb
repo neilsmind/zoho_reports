@@ -5,7 +5,7 @@ module ZohoReportApiClient
   class ReportClient
     # ZohoReportAPIClient provides the python based language binding to the http based api of ZohoReports.
 
-    def init(login_email, authtoken):
+    def init(login_email, authtoken)
       # Creates a new C{ReportClient} instance.
       # @param authtoken: User's authtoken.
       # @type authtoken:string
