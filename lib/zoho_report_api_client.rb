@@ -1,11 +1,10 @@
 require "zoho_report_api_client/version"
 require "addressable/uri"
-require "HTTParty"
+require "httmultiparty"
 
 module ZohoReportApiClient
   class Client
-    include HTTParty
-    debug_output $stdout
+    include HTTMultiParty
 
     # ZohoReportAPIClient provides the ruby based language binding to the http based api of ZohoReports.
 
@@ -36,8 +35,8 @@ module ZohoReportApiClient
     def send_request(url, http_method, options = {})
       # Merge our default query string values with the specificed query values
       options[:query] = default_query.merge!(options[:query])
-
-      # Convert form variables to encoded string if exists
+      
+      #Convert form variables to encoded string if exists
       if options.has_key?(:body)
         uri = Addressable::URI.new
         uri.query_values = options[:body]
@@ -145,9 +144,10 @@ module ZohoReportApiClient
     
     # Update the data in the specified table identified by the URI.
     def update_data(database_name, table_name, column_values, criteria, config={})
-      body = column_values.merge!({'ZOHO_CRITERIA' => criteria})
-      body = body.merge!(config) if config.present?
+      body = column_values.merge!({:ZOHO_CRITERIA => criteria})
+      body = body.merge!(config) if config.any?
 
+      puts body
       options = {
         :query => {
           'ZOHO_ACTION' => 'UPDATE',
@@ -210,27 +210,27 @@ module ZohoReportApiClient
     end        
 
     # Bulk import data into the table identified by the URI.
-    def import_data(table_uri, import_type, import_content, import_config={})
-      raise "Import Type must be APPEND, TRUNCATEADD or UPDATEADD" unless  ["APPEND", "TRUNCATEADD", "UPDATEADD"].include?(import_type)
+    def import_data(database_name, table_name, import_type, import_content, import_file_type = 'JSON', import_config={})
+      raise "Import Type must be APPEND, TRUNCATEADD or UPDATEADD" unless ["APPEND", "TRUNCATEADD", "UPDATEADD"].include?(import_type)
 
       body = {
         'ZOHO_AUTO_IDENTIFY' => 'true',
         'ZOHO_ON_IMPORT_ERROR' => 'ABORT',
         'ZOHO_CREATE_TABLE' => 'false',
         'ZOHO_IMPORT_TYPE' => import_type,
-        'ZOHO_IMPORT_DATA' => importContent,
+        'ZOHO_IMPORT_DATA' => import_content,
+        'ZOHO_IMPORT_FILETYPE' => import_file_type,
       }
-      body = body.merge!(import_config) if import_config.present?
+      body = body.merge!(import_config) if import_config.any?
 
       options = {
         :query => {
-          'ZOHO_ACTION' => 'EXPORT',
-          'ZOHO_OUTPUT_FORMAT' => format,
+          'ZOHO_ACTION' => 'IMPORT',
         },
         :body => body
       }
 
-      send_request get_uri(database_name, table_or_report_name), 'post', options
+      send_request get_uri(database_name, table_name), 'post', options
       # TODO: Figure out to what to do with File objectsw response
     end        
 
