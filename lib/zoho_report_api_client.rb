@@ -210,7 +210,7 @@ module ZohoReportApiClient
     end        
 
     # Bulk import data into the table identified by the URI.
-    def import_data(database_name, table_name, import_type, import_content, import_file_type = 'JSON', import_config={})
+    def import_data(database_name, table_name, import_type, import_content, import_config={})
       raise "Import Type must be APPEND, TRUNCATEADD or UPDATEADD" unless ["APPEND", "TRUNCATEADD", "UPDATEADD"].include?(import_type)
 
       body = {
@@ -219,7 +219,7 @@ module ZohoReportApiClient
         'ZOHO_CREATE_TABLE' => 'false',
         'ZOHO_IMPORT_TYPE' => import_type,
         'ZOHO_IMPORT_DATA' => import_content,
-        'ZOHO_IMPORT_FILETYPE' => import_file_type,
+        'ZOHO_IMPORT_FILETYPE' => 'JSON',
       }
       body = body.merge!(import_config) if import_config.any?
 
@@ -229,7 +229,7 @@ module ZohoReportApiClient
         },
         :body => body
       }
-
+      puts options
       send_request get_uri(database_name, table_name), 'post', options
       # TODO: Figure out to what to do with File objectsw response
     end        

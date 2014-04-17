@@ -67,5 +67,26 @@ describe ZohoReportApiClient::Client do
       response = @client.import_data("test_database", "widgets", 'APPEND', row_data.to_json)
       expect(response.success?).to be true
     end
+
+    it "should UPDATE a single row" do
+
+      row_data = [
+        { id: 1, name: 'Acme Widget Revision', description: 'Widget from Acme for Testing', active: 't' }
+      ]
+      
+      body = {
+        'ZOHO_AUTO_IDENTIFY' => 'true',
+        'ZOHO_ON_IMPORT_ERROR' => 'ABORT',
+        'ZOHO_CREATE_TABLE' => 'false',
+        'ZOHO_IMPORT_TYPE' => 'UPDATEADD',
+        'ZOHO_IMPORT_DATA' => row_data.to_json,
+        'ZOHO_IMPORT_FILETYPE' => 'JSON',
+        'ZOHO_MATCHING_COLUMNS' => 'id',
+      }
+
+      stub_zoho_request :post, "test_database/widgets", "IMPORT", response_filename: "import.json", body: query_string(body)
+      response = @client.import_data("test_database", "widgets", 'UPDATEADD', row_data.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id')
+      expect(response.success?).to be true
+    end
   end
 end
