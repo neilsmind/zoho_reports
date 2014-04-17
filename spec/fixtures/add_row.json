@@ -1,0 +1,22 @@
+{
+    "response": {
+        "uri": "/api/user@example.com/test_database/widgets",
+        "action": "ADDROW",
+        "result": {
+            "column_order": [
+                "id",
+                "name",
+                "description",
+                "active"
+            ],
+            "rows": [
+                [
+                    "1",
+                    "Acme Widget",
+                    "Widget from Acme for Testing",
+                    "t"
+                ]
+            ]
+        }
+    }
+}

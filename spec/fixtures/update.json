@@ -1,0 +1,16 @@
+{
+    "response": {
+        "uri": "/api/user@example.com/test_database/widgets",
+        "action": "UPDATE",
+        "criteria": "(((id = 1)))",
+        "result": {
+            "updatedColumns": [
+                "id",
+                "description",
+                "active",
+                "name"
+            ],
+            "updatedRows": "1"
+        }
+    }
+}

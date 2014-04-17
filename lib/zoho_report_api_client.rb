@@ -1,36 +1,48 @@
 require "zoho_report_api_client/version"
-require "uri"
+require "addressable/uri"
 require "HTTParty"
 
 module ZohoReportApiClient
-  class ReportClient
+  class Client
     include HTTParty
-    # ZohoReportAPIClient provides the python based language binding to the http based api of ZohoReports.
+    debug_output $stdout
 
-    attr_accessor :authtoken, :login_email, :api_version
+    # ZohoReportAPIClient provides the ruby based language binding to the http based api of ZohoReports.
+
+    attr_accessor :auth_token, :login_email, :api_version
 
     base_uri "reportsapi.zoho.com:443/api"
 
-    def initialize(login_email,authtoken)
-      self.authtoken = authtoken
-      self.login_email = login_email
+    def initialize(options)
+      [:login_email, :auth_token].each do |param|
+        raise ArgumentError, "No #{param.to_s} specified. Missing argument: #{param.to_s}." unless options.has_key? param
+      end
+
+      self.auth_token = options[:auth_token]
+      self.login_email = options[:login_email]
       self.api_version = '1.0'
     end
 
+    # Returns default settings for url query string on requests
     def default_query
       {
-        'authtoken' => self.authtoken,
+        'authtoken' => self.auth_token,
         'ZOHO_OUTPUT_FORMAT' => 'JSON',
         'ZOHO_ERROR_FORMAT' => 'JSON',
         'ZOHO_API_VERSION' => self.api_version,
       }
     end
 
-    def send_request(url, http_method, options)
-      dq = default_query
-
+    def send_request(url, http_method, options = {})
       # Merge our default query string values with the specificed query values
-      options[:query] = dq.merge!(options[:query])
+      options[:query] = default_query.merge!(options[:query])
+
+      # Convert form variables to encoded string if exists
+      if options.has_key?(:body)
+        uri = Addressable::URI.new
+        uri.query_values = options[:body]
+        options[:body] = uri.query
+      end
 
       response = self.class.send(http_method,url, options)
 
@@ -42,22 +54,22 @@ module ZohoReportApiClient
     end
 
     # Gets copy database key for specified database identified by the URI    
-    def get_copy_db_key(db_uri)
+    def get_copy_db_key(database_name)
       # payLoad = ReportClientHelper.getAsPayLoad([config],None,None)
       options = {
         :query => { 'ZOHO_ACTION' => 'GETCOPYDBKEY' }
       } 
 
-      send_request(db_uri, 'post', options)
+      send_request get_db_uri(database_name), 'post', options
     end
 
     # Copy the specified database identified by the URI
-    def copy_database(db_uri)
+    def copy_database(database_name)
       options = {
         :query => { 'ZOHO_ACTION' => 'COPYDATABASE' }
       }
 
-      send_request(db_uri, 'post', options)
+      send_request get_db_uri(database_name), 'post', options
     end
 
     # Delete the specified database
@@ -68,7 +80,7 @@ module ZohoReportApiClient
           'ZOHO_DATABASE_NAME' => database_name,
         }
       }
-      send_request(user_uri, 'post', options)
+      send_request get_user_uri, 'post', options
     end
  
     # Add the users to the Zoho Reports Account
@@ -80,7 +92,7 @@ module ZohoReportApiClient
         }
       }
 
-      send_request(user_uri, 'post', options)
+      send_request get_user_uri, 'post', options
     end
  
     # Remove the users from the Zoho Reports Account
@@ -92,7 +104,7 @@ module ZohoReportApiClient
         }
       }
 
-      send_request(user_uri, 'post', options)
+      send_request get_user_uri, 'post', options
     end
  
     # Activate the users in the Zoho Reports Account
@@ -104,7 +116,7 @@ module ZohoReportApiClient
         }
       }
 
-      send_request(user_uri, 'post', options)
+      send_request get_user_uri, 'post', options
     end
  
     # Deactivate the users in the Zoho Reports Account
@@ -116,11 +128,11 @@ module ZohoReportApiClient
         }
       }
 
-      send_request(user_uri, 'post', options)
+      send_request get_user_uri, 'post', options
     end
 
     # Adds a row to the specified table identified by the URI
-    def add_row(table_uri, column_values)
+    def add_row(database_name, table_name, column_values)
       options = {
         :query => {
           'ZOHO_ACTION' => 'ADDROW',
@@ -128,11 +140,11 @@ module ZohoReportApiClient
         :body => column_values
       }
 
-      send_request(table_uri, 'post', options)
+      send_request get_uri(database_name, table_name), 'post', options
     end
     
     # Update the data in the specified table identified by the URI.
-    def update_data(table_uri, column_values, criteria, config={})
+    def update_data(database_name, table_name, column_values, criteria, config={})
       body = column_values.merge!({'ZOHO_CRITERIA' => criteria})
       body = body.merge!(config) if config.present?
 
@@ -143,11 +155,11 @@ module ZohoReportApiClient
         :body => body
       }
 
-      send_request(table_uri, 'post', options)
+      send_request get_uri(database_name, table_name), 'post', options
     end
 
     # Delete the data in the specified table identified by the URI.
-    def delete_data(table_uri, criteria, config={})
+    def delete_data(database_name, table_name, criteria, config={})
       body = {'ZOHO_CRITERIA' => criteria}
       body = body.merge!(config) if config.present?
 
@@ -158,11 +170,11 @@ module ZohoReportApiClient
         :body => body
       }
 
-      send_request(table_uri, 'post', options)
+      send_request get_uri(database_name, table_name), 'post', options
     end
 
     # Export the data in the specified table identified by the URI.
-    def export_data(table_or_report_uri, format, criteria, config={})
+    def export_data(database_name, table_or_report_name, format, criteria, config={})
       body = {'ZOHO_CRITERIA' => criteria}
       body = body.merge!(config) if config.present?
 
@@ -174,7 +186,8 @@ module ZohoReportApiClient
         :body => body
       }
 
-      send_request(table_or_report_uri, 'post', options)
+      result = send_request get_uri(database_name, table_or_report_name), 'post', options
+      result
       # TODO: Figure out to what to do with File objects response
     end
 
@@ -191,7 +204,8 @@ module ZohoReportApiClient
         :body => body
       }
 
-      send_request(table_or_report_uri, 'post', options)
+      result = send_request get_uri(database_name, table_or_report_name), 'post', options
+      result
       # TODO: Figure out to what to do with File objectsw response
     end        
 
@@ -216,18 +230,18 @@ module ZohoReportApiClient
         :body => body
       }
 
-      send_request(table_or_report_uri, 'post', options)
+      send_request get_uri(database_name, table_or_report_name), 'post', options
       # TODO: Figure out to what to do with File objectsw response
     end        
 
     # Returns the URI for the specified database table (or report).
-    def get_uri(db_name, table_or_report_name)
-      "/#{URI.encode self.login_email}/#{URI.encode db_name}/#{URI.encode table_or_report_name}"
+    def get_uri(database_name, table_or_report_name)
+      "/#{URI.encode self.login_email}/#{URI.encode database_name}/#{URI.encode table_or_report_name}"
     end        
 
     # Returns the URI for the specified database 
-    def get_db_uri(db_name)
-      "#{URI.encode self.login_email}/#{URI.encode db_name}"
+    def get_db_uri(database_name)
+      "#{URI.encode self.login_email}/#{URI.encode database_name}"
     end
 
     # Returns the URI for the specified user 
