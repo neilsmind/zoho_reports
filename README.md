@@ -18,9 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
+### Setting auth_token and login_email
+```ruby
+# /config/intializers/zoho_reports.rb
+ZohoReports.configure do |config|
+  config.auth_token = 'token'
+  config.login_email = 'user@example.com'
+end
+```
+
 ### Initializing an instance
 ```ruby
-client = ZohoReports::Client.new(login_email: 'user@example.com',auth_token: '_000000000000000000000000_')
+client = ZohoReports::Client.new
 ```
 
 ### Importing an entire model
