@@ -1,0 +1,23 @@
+{
+  " response": {
+    "uri": "/api/abc@zoho.com/EmployeeDB/EmployeeDetails",
+    "action": "IMPORT",
+    "result": {
+      "importSummary": {
+        "totalColumnCount": 3,
+        "selectedColumnCount": 3,
+        "totalRowCount": 50,
+        "successRowCount": 48,
+        "warnings": 0,
+        "importOperation": "created",
+        "importType": "APPEND"
+      },
+      "columnDetails": {
+        "Name": "Plain Text",
+        "Date Of Birth": "Date",
+        "Salary": "Number"
+      },
+      "importErrors": "[Line: 5 Field: 3] a1213 -WARNING: Invalid Number value"
+    }
+  }
+}

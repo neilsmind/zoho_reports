@@ -48,7 +48,7 @@ module ZohoReportApiClient
       if response.success?
         response
       else
-        raise response.response
+        raise response.parsed_response
       end
     end
 
@@ -147,7 +147,6 @@ module ZohoReportApiClient
       body = column_values.merge!({:ZOHO_CRITERIA => criteria})
       body = body.merge!(config) if config.any?
 
-      puts body
       options = {
         :query => {
           'ZOHO_ACTION' => 'UPDATE',
@@ -229,7 +228,7 @@ module ZohoReportApiClient
         },
         :body => body
       }
-      puts options
+
       send_request get_uri(database_name, table_name), 'post', options
       # TODO: Figure out to what to do with File objectsw response
     end        
