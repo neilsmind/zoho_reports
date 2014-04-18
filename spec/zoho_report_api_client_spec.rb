@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe ZohoReportApiClient::Client do
+describe ZohoReports::Client do
   before :each do
-    @client = ZohoReportApiClient::Client.new(login_email: 'user@example.com', auth_token: 'token')
+    @client = ZohoReports::Client.new(login_email: 'user@example.com', auth_token: 'token')
   end
 
   context "#new" do
     it "should initialize with options" do
       options = { login_email: 'user@example.com', auth_token: 'token' }
-      client = ZohoReportApiClient::Client.new(options)
+      client = ZohoReports::Client.new(options)
       expect(client.login_email).to eq('user@example.com')
       expect(client.auth_token).to eq('token')
       expect(client.api_version).to eq('1.0')

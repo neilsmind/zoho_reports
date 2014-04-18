@@ -1,4 +1,4 @@
-# ZohoReportApiClient
+# ZohoReports
 
 Wraps the raw HTTP based API of Zoho Reports with easy to use methods for the ruby platform. This enables ruby and Rails developers to easily use Zoho Reports API.
 
@@ -6,7 +6,7 @@ Wraps the raw HTTP based API of Zoho Reports with easy to use methods for the ru
 
 Add this line to your application's Gemfile:
 
-    gem 'zoho_report_api_client', :git => "https://github.com/neilsmind/zoho_report_api_client"
+    gem 'zoho_reports', :git => "https://github.com/neilsmind/zoho_reports"
 
 And then execute:
 
@@ -14,13 +14,13 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install zoho_report_api_client
+    $ gem install zoho_reports
 
 ## Usage
 
 ### Initializing an instance
 ```ruby
-client = ZohoReportApiClient::Client.new(login_email: 'user@example.com',auth_token: '_000000000000000000000000_')
+client = ZohoReports::Client.new(login_email: 'user@example.com',auth_token: '_000000000000000000000000_')
 ```
 
 ### Importing an entire model
@@ -45,7 +45,7 @@ When importing through the API and generating a new table, the column data types
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/zoho_report_api_client/fork )
+1. Fork it ( http://github.com/<my-github-username>/zoho_reports/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

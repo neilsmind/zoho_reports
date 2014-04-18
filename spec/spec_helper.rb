@@ -1,4 +1,4 @@
-require 'zoho_report_api_client'
+require 'zoho_reports'
 require 'webmock/rspec'
 require 'addressable/uri'
 require 'json'
