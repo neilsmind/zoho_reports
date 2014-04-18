@@ -18,7 +18,24 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Initializing an instance
+```ruby
+client = ZohoReportApiClient::Client.new(login_email: 'user@example.com',auth_token: '_000000000000000000000000_')
+```
+
+### Importing an entire model
+This example shows how to import the "Widget" model records, including creating a table if it doesn't already exist. 
+
+```ruby
+# Zoho Reports doesn't support standard json date/time formats so we temporarily turn it off
+ActiveSupport::JSON::Encoding.use_standard_json_time_format = false
+
+# Notice the ZOHO_DATE_FORMAT here
+client.import_data("test_database", "widgets", 'UPDATEADD', Widget.all.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id', 'ZOHO_CREATE_TABLE' => 'true', 'ZOHO_DATE_FORMAT' => 'yyyy/MM/dd HH:mm:ss Z')
+
+# Turn standard json back on
+ActiveSupport::JSON::Encoding.use_standard_json_time_format = true
+```
 
 ## Contributing
 
