@@ -40,7 +40,15 @@ This example shows how to import the "Widget" model records, including creating 
 ActiveSupport::JSON::Encoding.use_standard_json_time_format = false
 
 # Notice the ZOHO_DATE_FORMAT here
-client.import_data("test_database", "widgets", 'UPDATEADD', Widget.all.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id', 'ZOHO_CREATE_TABLE' => 'true', 'ZOHO_DATE_FORMAT' => 'yyyy/MM/dd HH:mm:ss Z')
+client.import_data(
+  "test_database", 
+  "widgets", 
+  'UPDATEADD', 
+  Widget.all.to_json, 
+  'ZOHO_MATCHING_COLUMNS' => 'id', 
+  'ZOHO_CREATE_TABLE' => 'true', 
+  'ZOHO_DATE_FORMAT' => 'yyyy/MM/dd HH:mm:ss Z'
+)
 
 # Turn standard json back on
 ActiveSupport::JSON::Encoding.use_standard_json_time_format = true
