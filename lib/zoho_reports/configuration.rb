@@ -1,10 +1,11 @@
 module ZohoReports
   class Configuration
-    attr_accessor :login_email, :auth_token
+    attr_accessor :login_email, :auth_token, :zoho_database_name
 
     def initialize
       @login_email = ''
       @auth_token = ''
+      @zoho_database_name = ''
     end
   end
 end

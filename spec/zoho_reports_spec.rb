@@ -6,6 +6,7 @@ describe ZohoReports do
       ZohoReports.configure do |config|
         config.auth_token = 'token'
         config.login_email = 'user@example.com'
+        config.zoho_database_name = 'test_database'
       end
     end
 
@@ -23,6 +24,7 @@ describe ZohoReports::Client do
     ZohoReports.configure do |config|
       config.auth_token = 'token'
       config.login_email = 'user@example.com'
+      config.zoho_database_name = 'test_database'
     end
 
     @client = ZohoReports::Client.new
@@ -44,7 +46,7 @@ describe ZohoReports::Client do
         active: 't',
       }
       stub_zoho_request :post, "test_database/widgets", "ADDROW", response_filename: "add_row.json", body: query_string(new_row)
-      response = @client.add_row("test_database", "widgets", new_row)
+      response = @client.add_row("widgets", new_row)
       expect(response.success?).to be true
     end
   end
@@ -62,7 +64,7 @@ describe ZohoReports::Client do
       body = row_data.merge({:ZOHO_CRITERIA => criteria})
       
       stub_zoho_request :post, "test_database/widgets", "UPDATE", response_filename: "update.json", body: query_string(body)
-      response = @client.update_data("test_database", "widgets", row_data, criteria)
+      response = @client.update_data("widgets", row_data, criteria)
       expect(response.success?).to be true
     end
   end
@@ -83,7 +85,7 @@ describe ZohoReports::Client do
         'ZOHO_IMPORT_FILETYPE' => 'JSON',
       }
       stub_zoho_request :post, "test_database/widgets", "IMPORT", response_filename: "import.json", body: query_string(body)
-      response = @client.import_data("test_database", "widgets", 'APPEND', row_data.to_json)
+      response = @client.import_data("widgets", 'APPEND', row_data.to_json)
       expect(response.success?).to be true
     end
 
@@ -104,7 +106,7 @@ describe ZohoReports::Client do
       }
 
       stub_zoho_request :post, "test_database/widgets", "IMPORT", response_filename: "import.json", body: query_string(body)
-      response = @client.import_data("test_database", "widgets", 'UPDATEADD', row_data.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id')
+      response = @client.import_data("widgets", 'UPDATEADD', row_data.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id')
       expect(response.success?).to be true
     end
 
@@ -124,7 +126,7 @@ describe ZohoReports::Client do
         'ZOHO_IMPORT_FILETYPE' => 'JSON',
       }
       stub_zoho_request :post, "test_database/widgets", "IMPORT", response_filename: "import.json", body: query_string(body)
-      response = @client.import_data("test_database", "widgets", 'APPEND', row_data.to_json)
+      response = @client.import_data("widgets", 'APPEND', row_data.to_json)
       expect(response.success?).to be true
     end
 
@@ -146,7 +148,7 @@ describe ZohoReports::Client do
       }
 
       stub_zoho_request :post, "test_database/widgets", "IMPORT", response_filename: "import.json", body: query_string(body)
-      response = @client.import_data("test_database", "widgets", 'UPDATEADD', row_data.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id')
+      response = @client.import_data("widgets", 'UPDATEADD', row_data.to_json, 'ZOHO_MATCHING_COLUMNS' => 'id')
       expect(response.success?).to be true
     end
   end
