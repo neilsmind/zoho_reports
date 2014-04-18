@@ -20,16 +20,17 @@ end
 
 describe ZohoReports::Client do
   before :each do
-    @client = ZohoReports::Client.new(login_email: 'user@example.com', auth_token: 'token')
+    ZohoReports.configure do |config|
+      config.auth_token = 'token'
+      config.login_email = 'user@example.com'
+    end
+
+    @client = ZohoReports::Client.new
   end
 
   context "#new" do
     it "should initialize with options" do
-      options = { login_email: 'user@example.com', auth_token: 'token' }
-      client = ZohoReports::Client.new(options)
-      expect(client.login_email).to eq('user@example.com')
-      expect(client.auth_token).to eq('token')
-      expect(client.api_version).to eq('1.0')
+      expect(@client.api_version).to eq('1.0')
     end
   end
 

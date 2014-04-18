@@ -22,17 +22,14 @@ module ZohoReports
 
     base_uri "reportsapi.zoho.com:443/api"
 
-    def initialize(config = Configuration.new)
-      @config = config
-      # self.auth_token = @config.auth_token
-      # self.login_email = @config.login_email
+    def initialize
       self.api_version = '1.0'
     end
 
     # Returns default settings for url query string on requests
     def default_query
       {
-        'authtoken' => config.auth_token,
+        'authtoken' => ZohoReports.configuration.auth_token,
         'ZOHO_OUTPUT_FORMAT' => 'JSON',
         'ZOHO_ERROR_FORMAT' => 'JSON',
         'ZOHO_API_VERSION' => self.api_version,
@@ -242,17 +239,17 @@ module ZohoReports
 
     # Returns the URI for the specified database table (or report).
     def get_uri(database_name, table_or_report_name)
-      "/#{URI.encode self.config.login_email}/#{URI.encode database_name}/#{URI.encode table_or_report_name}"
+      "/#{URI.encode ZohoReports.configuration.login_email}/#{URI.encode database_name}/#{URI.encode table_or_report_name}"
     end        
 
     # Returns the URI for the specified database 
     def get_db_uri(database_name)
-      "#{URI.encode ZohoReports.config.login_email}/#{URI.encode database_name}"
+      "#{URI.encode ZohoReports.configuration.login_email}/#{URI.encode database_name}"
     end
 
     # Returns the URI for the specified user 
     def get_user_uri()
-      "/#{URI.encode self.config.login_email}"
+      "/#{URI.encode ZohoReports.configuration.login_email}"
     end
   end
 
