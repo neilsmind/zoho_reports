@@ -1,6 +1,7 @@
 require "zoho_reports/version"
 require "zoho_reports/client"
 require "zoho_reports/configuration"
+require "zoho_reports/zoho_reportify"
 
 module ZohoReports
   class << self
