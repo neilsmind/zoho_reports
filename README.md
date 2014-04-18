@@ -37,6 +37,12 @@ client.import_data("test_database", "widgets", 'UPDATEADD', Widget.all.to_json, 
 ActiveSupport::JSON::Encoding.use_standard_json_time_format = true
 ```
 
+When importing through the API and generating a new table, the column data types are not set nor is there currently a way to set the datatype. Here are the steps provided through the [Zoho Reports wiki comments](https://zohoreportsapi.wiki.zoho.com/importing-bulk-data.html):
+
+1. Login into Zoho Reports, Open the import wizard ( "Import Excel, CSV, HTML, Google docs,.." ), upload your file.
+2. Click "Next" button to go to the next screen of import wizard (i.e step 2 of 2), there you can see the preview table. 
+3. In that table, the first row will be header row ( i.e., Column names ) and the second row will be the datatype which is auto identified by our Zoho Reports system. There you can change the column datatype to "Text" for the column you want to change. Then, continue the import process.
+
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/zoho_report_api_client/fork )
