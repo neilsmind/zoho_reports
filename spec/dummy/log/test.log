@@ -3451,3 +3451,89 @@
   [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
   [1m[35m (0.1ms)[0m  begin transaction
   [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (7.8ms)[0m  INSERT INTO "widgets" ("created_at", "description", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00], ["description", "Turns people into babies"], ["name", "Baby-inator"], ["updated_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "widgets" ("created_at", "description", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00], ["description", "Deflate every inflatable in the Tri-State Area"], ["name", "Deflate-inator Ray"], ["updated_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 2[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets"[0m
+  [1m[35mWidget Load (0.1ms)[0m  SELECT "widgets".* FROM "widgets"
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "widgets" ("created_at", "description", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00], ["description", "Turns people into babies"], ["name", "Baby-inator"], ["updated_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "widgets" SET "description" = ?, "updated_at" = ? WHERE "widgets"."id" = 1  [["description", "Turns people into whiny babies"], ["updated_at", Mon, 21 Apr 2014 17:47:17 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (4.8ms)[0m  INSERT INTO "widgets" ("created_at", "description", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00], ["description", "Turns people into babies"], ["name", "Baby-inator"], ["updated_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "widgets" ("created_at", "description", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00], ["description", "Deflate every inflatable in the Tri-State Area"], ["name", "Deflate-inator Ray"], ["updated_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 2[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets"[0m
+  [1m[35mWidget Load (0.2ms)[0m  SELECT "widgets".* FROM "widgets"
+  [1m[36m (1.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "widgets" ("created_at", "description", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00], ["description", "Turns people into babies"], ["name", "Baby-inator"], ["updated_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "widgets" SET "description" = ?, "updated_at" = ? WHERE "widgets"."id" = 1  [["description", "Turns people into whiny babies"], ["updated_at", Mon, 21 Apr 2014 17:48:21 UTC +00:00]]
+  [1m[36mWidget Load (0.1ms)[0m  [1mSELECT "widgets".* FROM "widgets" WHERE "widgets"."id" = 1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m

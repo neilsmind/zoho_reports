@@ -35,7 +35,6 @@ module ZohoReports
                   'ZOHO_IMPORT_DATA' => Widget.all.to_json,
                   'ZOHO_IMPORT_FILETYPE' => 'JSON',
                   'ZOHO_MATCHING_COLUMNS' => 'id', 
-                  'ZOHO_DATE_FORMAT' => "yyyy-MM-dd'T'HH:mm:ssZ"
                 }))
       end
     end
@@ -67,7 +66,6 @@ module ZohoReports
                   'ZOHO_IMPORT_DATA' => [@widget].to_json,
                   'ZOHO_IMPORT_FILETYPE' => 'JSON',
                   'ZOHO_MATCHING_COLUMNS' => 'id',
-                  'ZOHO_DATE_FORMAT' => "yyyy-MM-dd'T'HH:mm:ssZ",
                 }))
       end
     end
