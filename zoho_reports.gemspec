@@ -22,6 +22,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "webmock"
+  spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "spring"
+  spec.add_development_dependency "sqlite3"
+  spec.add_dependency "rails", "~> 4.0.4"
   spec.add_dependency "addressable"
   spec.add_dependency "httmultiparty"
 end

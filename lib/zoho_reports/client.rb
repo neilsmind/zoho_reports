@@ -212,6 +212,8 @@ module ZohoReports
         'ZOHO_IMPORT_TYPE' => import_type,
         'ZOHO_IMPORT_DATA' => import_content,
         'ZOHO_IMPORT_FILETYPE' => 'JSON',
+        'ZOHO_DATE_FORMAT' => 'yyyy/MM/dd HH:mm:ss Z',
+        'ZOHO_MATCHING_COLUMNS' => 'id', 
       }
       body = body.merge!(import_config) if import_config.any?
 

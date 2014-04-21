@@ -12,9 +12,7 @@ describe ZohoReports do
 
     it "returns a user_uri with the configuratoin login_email embedded" do
       user_uri = ZohoReports::Client.new.get_user_uri
-
       expect(user_uri).to eq('/user@example.com')
-
     end
   end
 end
