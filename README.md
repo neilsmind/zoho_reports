@@ -6,7 +6,7 @@ Wraps the raw HTTP based API of Zoho Reports with easy to use methods for the ru
 
 Add this line to your application's Gemfile:
 
-    gem 'zoho_reports', :git => "https://github.com/neilsmind/zoho_reports"
+    gem 'zoho_reports'
 
 And then execute:
 

@@ -17,18 +17,12 @@ module ZohoReports
         def self.initialize_zoho_table
           client = ZohoReports::Client.new
 
-          
-
-          # Notice the ZOHO_DATE_FORMAT here
           client.import_data(
             self.table_name, 
             'UPDATEADD', 
             all.to_json, 
             'ZOHO_CREATE_TABLE' => 'true', 
-          )
-
-          # Turn standard json back on
-          
+          )          
         end
 
         include ZohoReports::ZohoReportify::LocalInstanceMethods

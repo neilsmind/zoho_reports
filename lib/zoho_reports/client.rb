@@ -242,10 +242,4 @@ module ZohoReports
       "/#{URI.encode ZohoReports.configuration.login_email}"
     end
   end
-
-  module ActiveRecord
-    class ZohoReportify
-
-    end
-  end
 end
