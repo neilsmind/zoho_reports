@@ -50,24 +50,6 @@ module ZohoReports
         
       end
     end
-
-    # def zoho_reportify(options = nil)
-    #   after_save do |record|
-    #     
-
-    #     client = ZohoReports::Client.new
-    #     client.import_data(
-    #       self.class.name.pluralize.underscore, 
-    #       'UPDATEADD', 
-    #       [self.to_json], 
-    #       'ZOHO_MATCHING_COLUMNS' => 'id', 
-    #       'ZOHO_CREATE_TABLE' => 'true', 
-    #       'ZOHO_DATE_FORMAT' => 'yyyy/MM/dd HH:mm:ss Z'
-    #     )
-
-    #     
-    #   end
-    # end
   end
 end
 
