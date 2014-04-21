@@ -20,10 +20,11 @@ Or install it yourself as:
 
 ### Setting auth_token and login_email
 ```ruby
-# /config/intializers/zoho_reports.rb
+# (usually in /config/intializers/zoho_reports.rb)
 ZohoReports.configure do |config|
   config.auth_token = 'token'
   config.login_email = 'user@example.com'
+  config.database_name = 'test_database'
 end
 ```
 
@@ -36,9 +37,6 @@ client = ZohoReports::Client.new
 This example shows how to import the "Widget" model records, including creating a table if it doesn't already exist. 
 
 ```ruby
-# Zoho Reports doesn't support standard json date/time formats so we temporarily turn it off
-ActiveSupport::JSON::Encoding.use_standard_json_time_format = false
-
 # Notice the ZOHO_DATE_FORMAT here
 client.import_data(
   "test_database", 
@@ -47,18 +45,30 @@ client.import_data(
   Widget.all.to_json, 
   'ZOHO_MATCHING_COLUMNS' => 'id', 
   'ZOHO_CREATE_TABLE' => 'true', 
-  'ZOHO_DATE_FORMAT' => 'yyyy/MM/dd HH:mm:ss Z'
 )
 
-# Turn standard json back on
-ActiveSupport::JSON::Encoding.use_standard_json_time_format = true
 ```
 
-When importing through the API and generating a new table, the column data types are not set nor is there currently a way to set the datatype. Here are the steps provided through the [Zoho Reports wiki comments](https://zohoreportsapi.wiki.zoho.com/importing-bulk-data.html):
+When importing through the API and generating a new table, string and datetime date types import correctly with format. However, here are the steps provided through the [Zoho Reports wiki comments](https://zohoreportsapi.wiki.zoho.com/importing-bulk-data.html) in case you have an issue with the column format:
 
 1. Login into Zoho Reports, Open the import wizard ( "Import Excel, CSV, HTML, Google docs,.." ), upload your file.
 2. Click "Next" button to go to the next screen of import wizard (i.e step 2 of 2), there you can see the preview table. 
 3. In that table, the first row will be header row ( i.e., Column names ) and the second row will be the datatype which is auto identified by our Zoho Reports system. There you can change the column datatype to "Text" for the column you want to change. Then, continue the import process.
+
+### Rails / ActiveRecord Support
+ZohoReports includes a module specific to ActiveReports that may be used as follows:
+
+```ruby
+# /app/models/widget.rb
+class Widget < ActiveRecord::Base
+  zoho_reportify
+...
+end
+```
+
+This adds two things to your Rails app.
+1. Widget.intialize_zoho_table will create the database table based on Widget.table_name and load all of the current data into it
+2. Adds an after_save callback that stores the instance attributes into the Zoho Reports table keeping your data in sync
 
 ## Contributing
 
