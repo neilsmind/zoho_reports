@@ -17,12 +17,19 @@ module ZohoReports
         def self.initialize_zoho_table
           client = ZohoReports::Client.new
 
+          # Pre-process attributes to be better with Zoho
+          zoho_all = []
+          all.each do |model|
+            zoho_all << ZohoReports::Client.zoho_attributes(model.attributes)
+          end
+
           client.import_data(
             self.table_name, 
             'UPDATEADD', 
-            all.to_json, 
+            zoho_all.to_json, 
             'ZOHO_CREATE_TABLE' => 'true', 
-          )          
+          )
+
         end
 
         include ZohoReports::ZohoReportify::LocalInstanceMethods
@@ -37,7 +44,7 @@ module ZohoReports
         client.import_data(
           self.class.table_name, 
           'UPDATEADD', 
-          self.class.where(id: id).to_json, 
+          [ZohoReports::Client.zoho_attributes(self.attributes)].to_json, 
         )
 
         # Turn standard json back on
