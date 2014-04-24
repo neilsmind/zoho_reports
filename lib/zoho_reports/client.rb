@@ -207,13 +207,15 @@ module ZohoReports
 
       body = {
         'ZOHO_AUTO_IDENTIFY' => 'true',
-        'ZOHO_ON_IMPORT_ERROR' => 'ABORT',
+        'ZOHO_ON_IMPORT_ERROR' => 'SETCOLUMNEMPTY',
         'ZOHO_CREATE_TABLE' => 'false',
         'ZOHO_IMPORT_TYPE' => import_type,
         'ZOHO_IMPORT_DATA' => import_content,
         'ZOHO_IMPORT_FILETYPE' => 'JSON',
+        'ZOHO_DATE_FORMAT' => "yyyy/MM/dd HH:mm:ss Z",
         'ZOHO_MATCHING_COLUMNS' => 'id', 
       }
+      puts body['ZOHO_IMPORT_DATA']
       body = body.merge!(import_config) if import_config.any?
 
       options = {
@@ -226,6 +228,26 @@ module ZohoReports
       send_request get_uri(table_name), 'post', options
       # TODO: Figure out to what to do with File objectsw response
     end        
+
+    # Converts formats to appropriate JSON value that can be consumed by Zoho Reports
+    # Hint, hint...datetimes
+    def self.zoho_attributes(attributes)
+      zohoified_attributes = Hash.new 
+
+      attributes.map do |k,v| 
+        if v.instance_of?(ActiveSupport::TimeWithZone)
+          # Zoho doesn't currently deal well with JSON dates (particularly ones with milliseconds) so we'll convert to a string first
+          zohoified_attributes[k] = v.strftime('%Y/%m/%d %T %Z')
+          puts "#{k}: #{zohoified_attributes[k]}"
+        else
+          zohoified_attributes[k] = v
+          puts "NOT TIME: #{k} - #{attributes[k].class}"
+        end
+      end
+
+      return zohoified_attributes
+
+    end
 
     # Returns the URI for the specified database table (or report).
     def get_uri(table_or_report_name)

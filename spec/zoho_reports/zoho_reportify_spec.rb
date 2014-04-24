@@ -29,12 +29,13 @@ module ZohoReports
                 },
                 :body => query_string({
                   'ZOHO_AUTO_IDENTIFY' => 'true',
-                  'ZOHO_ON_IMPORT_ERROR' => 'ABORT',
+                  'ZOHO_ON_IMPORT_ERROR' => 'SETCOLUMNEMPTY',
                   'ZOHO_CREATE_TABLE' => 'true',
                   'ZOHO_IMPORT_TYPE' => 'UPDATEADD',
                   'ZOHO_IMPORT_DATA' => Widget.all.to_json,
                   'ZOHO_IMPORT_FILETYPE' => 'JSON',
                   'ZOHO_MATCHING_COLUMNS' => 'id', 
+                  'ZOHO_DATE_FORMAT' => "yyyy/MM/dd HH:mm:ss Z"
                 }))
       end
     end
@@ -60,12 +61,13 @@ module ZohoReports
                 },
                 :body => query_string({
                   'ZOHO_AUTO_IDENTIFY' => 'true',
-                  'ZOHO_ON_IMPORT_ERROR' => 'ABORT',
+                  'ZOHO_ON_IMPORT_ERROR' => 'SETCOLUMNEMPTY',
                   'ZOHO_CREATE_TABLE' => 'false',
                   'ZOHO_IMPORT_TYPE' => 'UPDATEADD',
                   'ZOHO_IMPORT_DATA' => [@widget].to_json,
                   'ZOHO_IMPORT_FILETYPE' => 'JSON',
                   'ZOHO_MATCHING_COLUMNS' => 'id',
+                  'ZOHO_DATE_FORMAT' => "yyyy/MM/dd HH:mm:ss Z",
                 }))
       end
     end
