@@ -37,12 +37,16 @@ client = ZohoReports::Client.new
 This example shows how to import the "Widget" model records, including creating a table if it doesn't already exist. 
 
 ```ruby
-# Notice the ZOHO_DATE_FORMAT here
+# Clean up the dates prior to json-ing the attributes
+Widget.all.each do |model|
+  zoho_all = ZohoReports::Client.zoho_attributes(model)
+end
+
 client.import_data(
   "test_database", 
   "widgets", 
   'UPDATEADD', 
-  Widget.all.to_json, 
+  zoho_all.to_json, 
   'ZOHO_MATCHING_COLUMNS' => 'id', 
   'ZOHO_CREATE_TABLE' => 'true', 
 )
