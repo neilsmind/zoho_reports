@@ -26,22 +26,24 @@ module ZohoReports
     end
 
     def send_request(url, http_method, options = {})
-      # Merge our default query string values with the specificed query values
-      options[:query] = default_query.merge!(options[:query])
-      
-      #Convert form variables to encoded string if exists
-      if options.has_key?(:body)
-        uri = Addressable::URI.new
-        uri.query_values = options[:body]
-        options[:body] = uri.query
-      end
+      if ZohoReports.configuration.login_email.present? && ZohoReports.configuration.auth_token.present?
+        # Merge our default query string values with the specificed query values
+        options[:query] = default_query.merge!(options[:query])
+        
+        #Convert form variables to encoded string if exists
+        if options.has_key?(:body)
+          uri = Addressable::URI.new
+          uri.query_values = options[:body]
+          options[:body] = uri.query
+        end
 
-      response = self.class.send(http_method,url, options)
+        response = self.class.send(http_method,url, options)
 
-      if response.success?
-        response
-      else
-        raise response.parsed_response
+        if response.success?
+          response
+        else
+          raise response.parsed_response
+        end
       end
     end
 

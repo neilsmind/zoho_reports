@@ -6,6 +6,7 @@ module ZohoReports
       @login_email = ''
       @auth_token = ''
       @zoho_database_name = ''
+      @environments = ['production']
     end
   end
 end

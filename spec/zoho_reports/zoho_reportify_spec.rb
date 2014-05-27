@@ -18,7 +18,13 @@ module ZohoReports
         Widget.create(name: 'Deflate-inator Ray', description: 'Deflate every inflatable in the Tri-State Area')
         
         response = Widget.initialize_zoho_table
-
+        
+        zoho_all = []
+        
+        Widget.all.each do |widget|
+          zoho_all << ZohoReports::Client.zoho_attributes(widget.attributes)
+        end
+        
         expect(WebMock).to have_requested(:post, "https://reportsapi.zoho.com/api/user@example.com/test_database/widgets")
           .with(:query => {
                   'ZOHO_ACTION' => 'IMPORT', 
@@ -32,7 +38,7 @@ module ZohoReports
                   'ZOHO_ON_IMPORT_ERROR' => 'SETCOLUMNEMPTY',
                   'ZOHO_CREATE_TABLE' => 'true',
                   'ZOHO_IMPORT_TYPE' => 'UPDATEADD',
-                  'ZOHO_IMPORT_DATA' => Widget.all.to_json,
+                  'ZOHO_IMPORT_DATA' => zoho_all.to_json,
                   'ZOHO_IMPORT_FILETYPE' => 'JSON',
                   'ZOHO_MATCHING_COLUMNS' => 'id', 
                   'ZOHO_DATE_FORMAT' => "yyyy/MM/dd HH:mm:ss Z"
@@ -50,7 +56,7 @@ module ZohoReports
 
         # Save the update
         @widget.save
-        
+
         expect(WebMock).to have_requested(:post, "https://reportsapi.zoho.com/api/user@example.com/test_database/widgets")
           .with(:query => {
                   'ZOHO_ACTION' => 'IMPORT', 
@@ -64,7 +70,7 @@ module ZohoReports
                   'ZOHO_ON_IMPORT_ERROR' => 'SETCOLUMNEMPTY',
                   'ZOHO_CREATE_TABLE' => 'false',
                   'ZOHO_IMPORT_TYPE' => 'UPDATEADD',
-                  'ZOHO_IMPORT_DATA' => [@widget].to_json,
+                  'ZOHO_IMPORT_DATA' => [ZohoReports::Client.zoho_attributes(@widget.attributes)].to_json,
                   'ZOHO_IMPORT_FILETYPE' => 'JSON',
                   'ZOHO_MATCHING_COLUMNS' => 'id',
                   'ZOHO_DATE_FORMAT' => "yyyy/MM/dd HH:mm:ss Z",
