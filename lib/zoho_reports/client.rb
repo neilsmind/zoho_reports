@@ -217,7 +217,6 @@ module ZohoReports
         'ZOHO_DATE_FORMAT' => "yyyy/MM/dd HH:mm:ss Z",
         'ZOHO_MATCHING_COLUMNS' => 'id', 
       }
-      puts body['ZOHO_IMPORT_DATA']
       body = body.merge!(import_config) if import_config.any?
 
       options = {
@@ -240,10 +239,8 @@ module ZohoReports
         if v.instance_of?(ActiveSupport::TimeWithZone)
           # Zoho doesn't currently deal well with JSON dates (particularly ones with milliseconds) so we'll convert to a string first
           zohoified_attributes[k] = v.strftime('%Y/%m/%d %T %Z')
-          puts "#{k}: #{zohoified_attributes[k]}"
         else
           zohoified_attributes[k] = v
-          puts "NOT TIME: #{k} - #{attributes[k].class}"
         end
       end
 
